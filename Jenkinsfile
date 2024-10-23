@@ -28,7 +28,7 @@ pipeline {
             steps {
                 script {
                     // Запуск Docker-контейнера
-                    DOCKER_IMAGE.run("-d -p 8080:80")
+                    DOCKER_IMAGE.run("-d -p 8081:80")
                 }
             }
         }
