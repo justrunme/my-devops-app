@@ -1,12 +1,16 @@
 pipeline {
     agent any
 
+    environment {
+        DOCKER_IMAGE = ''
+    }
+
     stages {
         stage('Build') {
             steps {
                 script {
-                    // Сборка Docker-образа и сохранение ссылки на образ в переменную app
-                    def app = docker.build("my-devops-app")
+                    // Сборка Docker-образа и сохранение ссылки на образ в переменную DOCKER_IMAGE
+                    DOCKER_IMAGE = docker.build("my-devops-app")
                 }
             }
         }
@@ -14,7 +18,7 @@ pipeline {
             steps {
                 script {
                     // Тестирование Docker-образа
-                    app.inside {
+                    DOCKER_IMAGE.inside {
                         sh 'python -m unittest discover'
                     }
                 }
@@ -23,8 +27,8 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    // Деплой Docker-контейнера
-                    app.run("-d -p 8080:80")
+                    // Запуск Docker-контейнера
+                    DOCKER_IMAGE.run("-d -p 8080:80")
                 }
             }
         }
