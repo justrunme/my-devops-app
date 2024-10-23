@@ -5,7 +5,7 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    // Сборка Docker-образа
+                    // Сборка Docker-образа и сохранение ссылки на образ в переменную app
                     def app = docker.build("my-devops-app")
                 }
             }
@@ -23,10 +23,11 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    // Запуск Docker-контейнера
-                    docker.image("my-devops-app").run("-d -p 8080:80")
+                    // Деплой Docker-контейнера
+                    app.run("-d -p 8080:80")
                 }
             }
         }
     }
 }
+
