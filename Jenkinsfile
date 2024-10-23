@@ -17,7 +17,7 @@ pipeline {
         stage('Test') {
             steps {
                 script {
-                    // Тестирование Docker-образа
+                    // Тстирование Docker-образа
                     DOCKER_IMAGE.inside {
                         sh 'python -m unittest discover'
                     }
